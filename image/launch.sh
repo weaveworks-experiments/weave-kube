@@ -22,7 +22,7 @@ if [ ! -f /opt/cni/bin/weave-ipam ] ; then
     cp /home/weave/plugin /opt/cni/bin/weave-ipam
 fi
 
-/home/weave/weave --local create-bridge
+/home/weave/weave --local create-bridge --force
 
 exec /home/weave/weaver --port=6783 --datapath=datapath \
      --http-addr=127.0.0.1:6784 --docker-api='' --no-dns \
