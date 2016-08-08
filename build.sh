@@ -2,8 +2,8 @@
 
 set -e
 
-IMAGE_VERSION=latest
-IMAGE_VERSION=${WEAVE_VERSION:-$IMAGE_VERSION}
+WEAVE_VERSION=${WEAVE_VERSION:-latest}
+IMAGE_VERSION=${IMAGE_VERSION:-$WEAVE_VERSION}
 
 # Build helper program
 go build -i -o image/kube-peers -ldflags "-extldflags -static" ./kube-peers
