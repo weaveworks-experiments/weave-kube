@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: weave-net
+  namespace: weave-net
+spec:
+  template:
+    metadata:
+      labels:
+        name: weave-net
+    spec:
+      hostNetwork: true
+      containers:
+        - name: weave
+          image: weaveworks/weave-kube:kube-test
+          command:
+            - /home/weave/launch.sh
+          env:
+            - name: WEAVE_VERSION
+              value: kube-test
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: weavedb
+              mountPath: /weavedb
+            - name: cni-bin
+              mountPath: /opt
+            - name: cni-conf
+              mountPath: /etc
+          securityContext:
+            privileged: true
+      restartPolicy: Always
+      volumes:
+        - name: weavedb
+          emptyDir: {}
+        - name: cni-bin
+          hostPath:
+            path: /opt
+        - name: cni-conf
+          hostPath:
+            path: /etc
