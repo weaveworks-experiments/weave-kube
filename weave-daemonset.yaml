@@ -2,7 +2,6 @@ apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
   name: weave-net
-  namespace: weave-net
 spec:
   template:
     metadata:
@@ -13,6 +12,7 @@ spec:
       containers:
         - name: weave
           image: weaveworks/weave-kube:kube-test
+          imagePullPolicy: Always
           command:
             - /home/weave/launch.sh
           env:
