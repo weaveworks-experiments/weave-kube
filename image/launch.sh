@@ -27,7 +27,13 @@ fi
 
 /home/weave/weave --local create-bridge --force
 
+# This bit will become useful when Kubernetes allows 'spec.nodeName' in fieldPath
+NICKNAME_ARG=""
+if [ -n "$NODE_NAME" ] ; then
+    NICKNAME_ARG="--nickname=$NODE_NAME"
+fi
+
 exec /home/weave/weaver --port=6783 --datapath=datapath \
      --http-addr=127.0.0.1:6784 --docker-api='' --no-dns \
-     --ipalloc-range=$IPALLOC_RANGE \
+     --ipalloc-range=$IPALLOC_RANGE $NICKNAME_ARG \
      --name=$(cat /sys/class/net/weave/address) $(/home/weave/kube-peers)
