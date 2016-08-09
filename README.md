@@ -31,7 +31,11 @@ kubectl create -f weave-daemonset.yaml
 After a few seconds, one Weave Net pod should be running on each node,
 and any further pods you create will be attached to the Weave network.
 
-### Further Information
+## Known Issues
+
+ * Will not install on GCI, where /opt is a read-only filesystem.  Probably the same applies to CoreOS.
+
+## Further Information
 
 * [Weave Net Docs](https://www.weave.works/docs/net/latest/introducing-weave/)
 * [Weave Net Source](https://github.com/weaveworks/weave)
