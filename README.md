@@ -8,7 +8,7 @@ makes that happen.
 ## Prerequisites:
 
 A version of Kubernetes that includes PR #28178, to reload the CNI
-configuration after launch.
+configuration after launch. (So something newer than the 1.3.x releases)
 
 Download a copy of `weave-daemonset.yaml` from this repo.
 

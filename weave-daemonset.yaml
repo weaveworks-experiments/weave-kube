@@ -11,13 +11,13 @@ spec:
       hostNetwork: true
       containers:
         - name: weave
-          image: weaveworks/weave-kube:kube-test
+          image: weaveworks/weave-kube:1.6.1-beta
           imagePullPolicy: Always
           command:
             - /home/weave/launch.sh
           env:
             - name: WEAVE_VERSION
-              value: kube-test
+              value: 1.6.1-beta
             - name: IPALLOC_RANGE
               value: 10.244.0.0/14
           securityContext:
