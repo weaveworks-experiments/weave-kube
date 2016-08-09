@@ -26,9 +26,9 @@ spec:
             - name: weavedb
               mountPath: /weavedb
             - name: cni-bin
-              mountPath: /opt
+              mountPath: /opt/cni/bin
             - name: cni-conf
-              mountPath: /etc
+              mountPath: /etc/cni/net.d
           securityContext:
             privileged: true
       restartPolicy: Always
@@ -37,7 +37,7 @@ spec:
           emptyDir: {}
         - name: cni-bin
           hostPath:
-            path: /opt
+            path: /opt/cni/bin
         - name: cni-conf
           hostPath:
-            path: /etc
+            path: /etc/cni/net.d
