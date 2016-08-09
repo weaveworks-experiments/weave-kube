@@ -2,6 +2,9 @@
 
 set -e
 
+# Default if not supplied - same as gce kube-up script uses
+IPALLOC_RANGE=${IPALLOC_RANGE:-10.244.0.0/14}
+
 # Create CNI config, if not already there
 if [ ! -f /etc/cni/net.d/10-weave.conf ] ; then
     mkdir -p /etc/cni/net.d
@@ -26,5 +29,5 @@ fi
 
 exec /home/weave/weaver --port=6783 --datapath=datapath \
      --http-addr=127.0.0.1:6784 --docker-api='' --no-dns \
-     --ipalloc-range=10.244.0.0/14 \
+     --ipalloc-range=$IPALLOC_RANGE \
      --name=$(cat /sys/class/net/weave/address) $(/home/weave/kube-peers)

@@ -18,6 +18,8 @@ spec:
           env:
             - name: WEAVE_VERSION
               value: kube-test
+            - name: IPALLOC_RANGE
+              value: 10.244.0.0/14
           securityContext:
             privileged: true
           volumeMounts:
