@@ -6,7 +6,7 @@ WEAVE_VERSION=${WEAVE_VERSION:-latest}
 IMAGE_VERSION=${IMAGE_VERSION:-$WEAVE_VERSION}
 
 # Build helper program
-go build -i -o image/kube-peers -ldflags "-extldflags -static" ./kube-peers
+go build -i -o image/kube-peers -ldflags "-linkmode external -extldflags -static" ./kube-peers
 
 # Extract other files we need
 NAME=weave-kube-$$
