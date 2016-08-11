@@ -32,10 +32,11 @@ fi
 
 /home/weave/weave --local create-bridge --force
 
-# This bit will become useful when Kubernetes allows 'spec.nodeName' in fieldPath
+# Kubernetes sets HOSTNAME to the host's hostname
+# when running a pod in host namespace.
 NICKNAME_ARG=""
-if [ -n "$NODE_NAME" ] ; then
-    NICKNAME_ARG="--nickname=$NODE_NAME"
+if [ -n "$HOSTNAME" ] ; then
+    NICKNAME_ARG="--nickname=$HOSTNAME"
 fi
 
 BRIDGE_OPTIONS="--datapath=datapath"
