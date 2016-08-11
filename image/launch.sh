@@ -16,13 +16,18 @@ if [ ! -f /etc/cni/net.d/10-weave.conf ] ; then
 EOF
 fi
 
-# Copy CNI plugin binary
+install_cni_plugin() {
+    mkdir -p $1 || return 1
+    cp /home/weave/plugin $1/weave-net
+    cp /home/weave/plugin $1/weave-ipam
+}
+
+# Install CNI plugin binary to typical CNI bin location
+# with fall-back to CNI directory used by kube-up on GCI OS
 if [ ! -f /opt/cni/bin/weave-net ] ; then
-    mkdir -p /opt/cni/bin
-    cp /home/weave/plugin /opt/cni/bin/weave-net
-fi
-if [ ! -f /opt/cni/bin/weave-ipam ] ; then
-    cp /home/weave/plugin /opt/cni/bin/weave-ipam
+    if ! install_cni_plugin /opt/cni/bin ; then
+        install_cni_plugin /host_home/kubernetes/bin
+    fi
 fi
 
 /home/weave/weave --local create-bridge --force
