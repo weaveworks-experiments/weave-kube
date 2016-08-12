@@ -51,8 +51,27 @@ if [ "$(/home/weave/weave --local bridge-type)" = "bridge" ] ; then
     BRIDGE_OPTIONS="--iface=vethwe-pcap"
 fi
 
-exec /home/weave/weaver --port=6783 $BRIDGE_OPTIONS \
+/home/weave/weaver --port=6783 $BRIDGE_OPTIONS \
      --http-addr=127.0.0.1:6784 --docker-api='' --no-dns \
      --ipalloc-range=$IPALLOC_RANGE $NICKNAME_ARG \
      --name=$(cat /sys/class/net/weave/address) "$@" \
-     $(/home/weave/kube-peers)
+     $(/home/weave/kube-peers) &
+WEAVE_PID=$!
+
+# Wait for weave process to become responsive
+while true ; do
+    curl 127.0.0.1:6784/status >/dev/null 2>&1 && break
+    if ! kill -0 $WEAVE_PID >/dev/null 2>&1 ; then
+        echo Weave process has died >&2
+        exit 1
+    fi
+    sleep 1
+done
+
+# Allocate an IP address to the bridge so host processes can communicate with pods
+BRIDGE_CIDR=$(curl -s -S -X POST 127.0.0.1:6784/ip/weave:expose)
+if ! ip addr show dev weave | grep -qF $BRIDGE_CIDR ; then
+    ip addr add dev weave $BRIDGE_CIDR
+fi
+
+wait $WEAVE_PID
