@@ -41,7 +41,14 @@ fi
 
 BRIDGE_OPTIONS="--datapath=datapath"
 if [ "$(/home/weave/weave --local bridge-type)" = "bridge" ] ; then
-   BRIDGE_OPTIONS="--iface=weave"
+    # TODO: Call into weave script to do this
+    if ! ip link show vethwe-pcap >/dev/null 2>&1 ; then
+        ip link add name vethwe-bridge type veth peer name vethwe-pcap
+        ip link set vethwe-bridge up
+        ip link set vethwe-pcap up
+        ip link set vethwe-bridge master weave
+    fi
+    BRIDGE_OPTIONS="--iface=vethwe-pcap"
 fi
 
 exec /home/weave/weaver --port=6783 $BRIDGE_OPTIONS \
