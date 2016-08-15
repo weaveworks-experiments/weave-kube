@@ -33,7 +33,7 @@ and any further pods you create will be attached to the Weave network.
 
 ## Known Issues
 
- * Will not install on GCI, where /opt is a read-only filesystem.  Probably the same applies to CoreOS.
+ * Does not automatically handle nodes being removed from the cluster
 
 ## Further Information
 
