@@ -24,11 +24,9 @@ func getKubePeers() ([]string, error) {
 	}
 	addresses := make([]string, 0, len(nodeList.Items))
 	for _, peer := range nodeList.Items {
-		if peer.Name != "kubernetes-master" {
-			for _, addr := range peer.Status.Addresses {
-				if addr.Type == "InternalIP" {
-					addresses = append(addresses, addr.Address)
-				}
+		for _, addr := range peer.Status.Addresses {
+			if addr.Type == "InternalIP" {
+				addresses = append(addresses, addr.Address)
 			}
 		}
 	}
