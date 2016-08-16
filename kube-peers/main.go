@@ -5,15 +5,17 @@ import (
 	"log"
 
 	"k8s.io/kubernetes/pkg/api"
-	"k8s.io/kubernetes/pkg/client/restclient"
 	"k8s.io/kubernetes/pkg/client/unversioned"
+	kubectl_util "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 )
 
 func getKubePeers() ([]string, error) {
-	config, err := restclient.InClusterConfig()
+	factory := kubectl_util.NewFactory(nil)
+	config, err := factory.ClientConfig()
 	if err != nil {
-		return nil, err
+		log.Fatal("error contacting APIServer: ", err)
 	}
+
 	c, err := unversioned.New(config)
 	if err != nil {
 		return nil, err

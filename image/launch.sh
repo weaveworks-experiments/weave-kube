@@ -51,6 +51,12 @@ if [ "$(/home/weave/weave --local bridge-type)" = "bridge" ] ; then
     BRIDGE_OPTIONS="--iface=vethwe-pcap"
 fi
 
+# Work round absence of kube-proxy on master
+if [ "${HOSTNAME##*-}" = "master" ] ; then
+    KUBERNETES_SERVICE_HOST=""
+    KUBERNETES_SERVICE_PORT=""
+fi
+
 /home/weave/weaver --port=6783 $BRIDGE_OPTIONS \
      --http-addr=127.0.0.1:6784 --docker-api='' --no-dns \
      --ipalloc-range=$IPALLOC_RANGE $NICKNAME_ARG \
