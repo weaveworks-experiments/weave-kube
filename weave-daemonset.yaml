@@ -15,6 +15,11 @@ spec:
           imagePullPolicy: Always
           command:
             - /home/weave/launch.sh
+          livenessProbe:
+            httpGet:
+              host: 127.0.0.1
+              path: /status
+              port: 6784
           env:
             - name: WEAVE_VERSION
               value: 1.6.1-beta
