@@ -30,6 +30,8 @@ if [ ! -f /opt/cni/bin/weave-net ] ; then
     fi
 fi
 
+# Need to create bridge before running weaver so we can use the peer address
+# (because of https://github.com/weaveworks/weave/issues/2480)
 /home/weave/weave --local create-bridge --force
 
 # Kubernetes sets HOSTNAME to the host's hostname
@@ -74,10 +76,7 @@ while true ; do
     sleep 1
 done
 
-# Allocate an IP address to the bridge so host processes can communicate with pods
-BRIDGE_CIDR=$(curl -s -S -X POST 127.0.0.1:6784/ip/weave:expose)
-if ! ip addr show dev weave | grep -qF $BRIDGE_CIDR ; then
-    ip addr add dev weave $BRIDGE_CIDR
-fi
+# Expose the weave network so host processes can communicate with pods
+/home/weave/weave --local expose
 
 wait $WEAVE_PID
