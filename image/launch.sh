@@ -62,9 +62,11 @@ if [ "$(/home/weave/weave --local bridge-type)" = "bridge" ] ; then
     BRIDGE_OPTIONS="--iface=vethwe-pcap"
 fi
 
-if ! KUBE_PEERS=$(/home/weave/kube-peers) || [ -z "$KUBE_PEERS" ]; then
-    echo Failed to get peers >&2
-    exit 1
+if [ -z "$KUBE_PEERS" ]; then
+    if ! KUBE_PEERS=$(/home/weave/kube-peers) || [ -z "$KUBE_PEERS" ]; then
+        echo Failed to get peers >&2
+        exit 1
+    fi
 fi
 
 peer_count() {
