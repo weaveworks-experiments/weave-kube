@@ -7,6 +7,16 @@ spec:
     metadata:
       labels:
         name: weave-net
+      annotations:
+        scheduler.alpha.kubernetes.io/tolerations: |
+          [
+            {
+              "key": "dedicated",
+              "operator": "Equal",
+              "value": "master",
+              "effect": "NoSchedule"
+            }
+          ]
     spec:
       hostNetwork: true
       containers:
