@@ -22,7 +22,7 @@ spec:
       hostNetwork: true
       containers:
         - name: weave
-          image: weaveworks/weave-kube:1.6.1
+          image: weaveworks/weave-kube:1.6.2
           imagePullPolicy: Always
           command:
             - /home/weave/launch.sh
@@ -33,7 +33,7 @@ spec:
               port: 6784
           env:
             - name: WEAVE_VERSION
-              value: 1.6.1
+              value: 1.6.2
             - name: IPALLOC_RANGE
               value: 10.244.0.0/14
           securityContext:
