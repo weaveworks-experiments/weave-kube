@@ -10,11 +10,11 @@ go build -i -o image/kube-peers -ldflags "-linkmode external -extldflags -static
 
 # Extract other files we need
 NAME=weave-kube-$$
-docker create --name=$NAME weaveworks/weave:$WEAVE_VERSION
-docker cp $NAME:/home/weave/weaver image
-docker cp $NAME:/weavedb/weavedata.db image
-docker cp $NAME:/etc/ssl/certs/ca-certificates.crt image
-docker rm $NAME
+$SUDO docker create --name=$NAME weaveworks/weave:$WEAVE_VERSION
+$SUDO docker cp $NAME:/home/weave/weaver image
+$SUDO docker cp $NAME:/weavedb/weavedata.db image
+$SUDO docker cp $NAME:/etc/ssl/certs/ca-certificates.crt image
+$SUDO docker rm $NAME
 
 # Build the end product
-docker build -t weaveworks/weave-kube:$IMAGE_VERSION image
+$SUDO docker build -t weaveworks/weave-kube:$IMAGE_VERSION image
