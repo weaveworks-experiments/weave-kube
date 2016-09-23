@@ -22,3 +22,8 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+image/ca-certificates.crt
+image/kube-peers
+image/weavedata.db
+image/weaver
