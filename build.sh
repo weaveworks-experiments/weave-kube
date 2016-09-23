@@ -5,6 +5,11 @@ set -e
 WEAVE_VERSION=${WEAVE_VERSION:-latest}
 IMAGE_VERSION=${IMAGE_VERSION:-$WEAVE_VERSION}
 
+if ! grep -q "FROM.*$WEAVE_VERSION" image/Dockerfile ; then
+    echo "WEAVE_VERSION does not match image/Dockerfile"
+    exit 1
+fi
+
 # Build helper program
 go build -i -o image/kube-peers -ldflags "-linkmode external -extldflags -static" ./kube-peers
 
