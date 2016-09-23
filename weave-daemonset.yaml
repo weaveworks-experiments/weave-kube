@@ -22,7 +22,7 @@ spec:
       hostNetwork: true
       containers:
         - name: weave
-          image: weaveworks/weave-kube:1.6.2
+          image: weaveworks/weave-kube:latest
           imagePullPolicy: Always
           command:
             - /home/weave/launch.sh
