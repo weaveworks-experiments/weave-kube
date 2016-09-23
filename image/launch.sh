@@ -32,7 +32,7 @@ fi
 
 # Need to create bridge before running weaver so we can use the peer address
 # (because of https://github.com/weaveworks/weave/issues/2480)
-/home/weave/weave --local create-bridge --force
+/home/weave/weave --local create-bridge --force --expect-npc
 
 # Kubernetes sets HOSTNAME to the host's hostname
 # when running a pod in host namespace.
