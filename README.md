@@ -1,6 +1,6 @@
 # weave-kube
 
-Weave Net integration with Kubernetes for seamless turn-up
+Weave Net integration with Kubernetes for seamless turn-up.
 
 This repo contains a Kubernetes add-on (a DaemonSet) to install
 Weave Net with one command, and the source code for the image which
@@ -25,7 +25,8 @@ kubectl create -f https://git.io/weave-kube
 After a few seconds, one Weave Net pod should be running on each node,
 and any further pods you create will be attached to the Weave network.
 
-As of 1.7.0, Weave Net supports the Kubernetes policy API so that you can
+As of 1.7.0, Weave Net supports the [Kubernetes policy
+API](http://kubernetes.io/docs/user-guide/networkpolicies/) so that you can
 securely isolate different pods from each other based on namespaces and labels.
 
 ## Known Issues
