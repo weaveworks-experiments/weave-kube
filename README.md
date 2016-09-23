@@ -2,7 +2,7 @@
 
 Weave Net integration with Kubernetes for seamless turn-up
 
-This repo contains a DaemonSet config for Kubernetes to install
+This repo contains a Kubernetes add-on (a DaemonSet) to install
 Weave Net with one command, and the source code for the image which
 makes that happen.
 
