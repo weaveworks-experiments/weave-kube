@@ -1,39 +1,37 @@
 # weave-kube
+
 Weave Net integration with Kubernetes for seamless turn-up
 
-This repo contains a sample DaemonSet config for Kubernetes to install
+This repo contains a DaemonSet config for Kubernetes to install
 Weave Net with one command, and the source code for the image which
 makes that happen.
 
 ## Prerequisites:
 
-A version of Kubernetes that includes PR #28178, to reload the CNI
-configuration after launch. (So something newer than the 1.3.x releases)
-
-Download a copy of `weave-daemonset.yaml` from this repo.
+Kubernetes 1.3 or newer.
 
 ## To use:
 
  * Bring up a Kubernetes cluster configured to use CNI. For example,
-using the 'cluster' scripts supplied as part of Kubernetes:
-
-```
-NETWORK_PROVIDER=cni cluster/kube-up.sh
-```
+using the [`kubeadm` command](http://kubernetes.io/docs/kubeadm/).
 
  * Before you create any pods using Kubernetes, install and run Weave
 Net via the yaml file:
 
 ```
-kubectl create -f weave-daemonset.yaml
+kubectl create -f https://git.io/weave-kube
 ```
 
 After a few seconds, one Weave Net pod should be running on each node,
 and any further pods you create will be attached to the Weave network.
 
+As of 1.7.0, Weave Net supports the Kubernetes policy API so that you can
+securely isolate different pods from each other based on namespaces and labels.
+
 ## Known Issues
 
- * Does not automatically handle nodes being removed from the cluster
+ * Does not automatically handle nodes being removed from the cluster.
+   This won't cause issues in practice.
 
 ## Further Information
 
