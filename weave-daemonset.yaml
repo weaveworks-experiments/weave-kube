@@ -27,6 +27,7 @@ spec:
           command:
             - /home/weave/launch.sh
           livenessProbe:
+            initialDelaySeconds: 30
             httpGet:
               host: 127.0.0.1
               path: /status
