@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"k8s.io/kubernetes/pkg/api"
 	"k8s.io/kubernetes/pkg/client/unversioned"
@@ -13,13 +14,14 @@ func getKubePeers() ([]string, error) {
 	factory := kubectl_util.NewFactory(nil)
 	config, err := factory.ClientConfig()
 	if err != nil {
-		log.Fatal("error contacting APIServer: ", err)
+		os.Setenv("KUBERNETES_SERVICE_HOST", "")
+		os.Setenv("KUBERNETES_SERVICE_PORT", "")
+		config, err = factory.ClientConfig()
+		if err != nil {
+			log.Fatal("error contacting APIServer: ", err)
+		}
 	}
 
-	c, err := unversioned.New(config)
-	if err != nil {
-		return nil, err
-	}
 	nodeList, err := c.Nodes().List(api.ListOptions{})
 	if err != nil {
 		return nil, err
