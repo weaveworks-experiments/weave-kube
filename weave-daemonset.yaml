@@ -35,8 +35,6 @@ spec:
           env:
             - name: WEAVE_VERSION
               value: 1.6.2
-            - name: IPALLOC_RANGE
-              value: 10.244.0.0/14
           securityContext:
             privileged: true
           volumeMounts:

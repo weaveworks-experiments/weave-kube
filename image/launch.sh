@@ -2,8 +2,8 @@
 
 set -e
 
-# Default if not supplied - same as gce kube-up script uses
-IPALLOC_RANGE=${IPALLOC_RANGE:-10.244.0.0/14}
+# Default if not supplied - same as weave net default
+IPALLOC_RANGE=${IPALLOC_RANGE:-10.32.0.0/12}
 
 # Create CNI config, if not already there
 if [ ! -f /etc/cni/net.d/10-weave.conf ] ; then
