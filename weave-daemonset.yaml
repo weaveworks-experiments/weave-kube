@@ -53,6 +53,16 @@ spec:
               cpu: 25m
           securityContext:
             privileged: true
+        - name: weave-npc
+          image: weaveworks/weave-npc:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 200m
+            requests:
+              cpu: 25m
+          securityContext:
+            privileged: true
       restartPolicy: Always
       volumes:
         - name: weavedb
