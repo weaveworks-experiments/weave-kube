@@ -12,7 +12,7 @@ Kubernetes 1.4
 ## To use:
 
  * Bring up a Kubernetes cluster configured to use CNI. For example,
-   using the [`kubeadm` command](http://kubernetes.io/docs/kubeadm/).
+   using the [`kubeadm` command](http://kubernetes.io/docs/getting-started-guides/kubeadm/).
 
  * Install and run Weave Net as a DaemonSet:
 
