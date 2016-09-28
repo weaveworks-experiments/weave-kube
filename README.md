@@ -46,8 +46,22 @@ repo, you specify CNI like this:
 NETWORK_PROVIDER=cni cluster/kube-up.sh
 ```
 
+## Upgrading from previous installs
+
+If you were previously using the Weave CNI driver from a full install
+of Weave Net, then we recommend doing the following _on all nodes_:
+
+ * Shut down Kubernetes
+ * `weave reset`
+ * `rm /opt/cni/bin/weave-*`
+
+Then install as above.
+
 ## Known Issues
 
+ * If the `weave` process restarts without the machine re-booting then
+   failures may arise from IP address re-use (this is logged as issue
+   #10)
  * Does not automatically handle nodes being removed from the cluster.
    This won't cause issues in practice.
 
