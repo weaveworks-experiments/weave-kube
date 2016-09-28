@@ -37,7 +37,10 @@ repo; if you want to use a different version or to make changes to the
 configuration just clone the repo and use the file
 `weave-daemonset.yaml` directly.
 
-## Alternative installation method
+You can supply additional arguments to the Weave router process by
+adding them to the `command:` array in the yaml file.
+
+## Alternative Kubernetes installation method
 
 If you are using the older cluster set-up scripts from the kubernetes
 repo, you specify CNI like this:
@@ -53,9 +56,11 @@ of Weave Net, then we recommend doing the following _on all nodes_:
 
  * Shut down Kubernetes
  * `weave reset`
+ * Remove any separate provision you have made to run weave at
+   boot-time, e.g. `systemd` units
  * `rm /opt/cni/bin/weave-*`
 
-Then install as above.
+Then install the Weave Net daemonset as above.
 
 ## Known Issues
 
