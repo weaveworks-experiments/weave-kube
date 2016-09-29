@@ -84,4 +84,21 @@ done
 # Expose the weave network so host processes can communicate with pods
 /home/weave/weave --local expose
 
+reclaim_ips() {
+    ID=$1
+    shift
+    for CIDR in "$@" ; do
+        curl -s -S -X PUT "$HTTP_ADDR/ip/$ID/$CIDR" || true
+    done
+}
+
+# Tell the newly-started weave about existing weave bridge IPs
+/usr/bin/weaveutil container-addrs weave weave:expose | while read ID IFACE MAC IPS; do
+    reclaim_ips "weave:expose" $IPS
+done
+# Tell weave about existing weave process IPs
+/usr/bin/weaveutil process-addrs weave | while read ID IFACE MAC IPS; do
+    reclaim_ips "_" $IPS
+done
+
 wait $WEAVE_PID
