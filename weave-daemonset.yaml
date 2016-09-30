@@ -46,8 +46,6 @@ spec:
           resources:
             requests:
               cpu: 10m
-          securityContext:
-            privileged: true
         - name: weave-npc
           image: weaveworks/weave-npc:latest
           imagePullPolicy: Always
