@@ -4,6 +4,7 @@ set -e
 
 # Default if not supplied - same as weave net default
 IPALLOC_RANGE=${IPALLOC_RANGE:-10.32.0.0/12}
+HTTP_ADDR=${WEAVE_HTTP_ADDR:-127.0.0.1:6784}
 
 # Create CNI config, if not already there
 if [ ! -f /etc/cni/net.d/10-weave.conf ] ; then
@@ -72,7 +73,7 @@ WEAVE_PID=$!
 
 # Wait for weave process to become responsive
 while true ; do
-    curl 127.0.0.1:6784/status >/dev/null 2>&1 && break
+    curl $HTTP_ADDR/status >/dev/null 2>&1 && break
     if ! kill -0 $WEAVE_PID >/dev/null 2>&1 ; then
         echo Weave process has died >&2
         exit 1
@@ -82,5 +83,22 @@ done
 
 # Expose the weave network so host processes can communicate with pods
 /home/weave/weave --local expose
+
+reclaim_ips() {
+    ID=$1
+    shift
+    for CIDR in "$@" ; do
+        curl -s -S -X PUT "$HTTP_ADDR/ip/$ID/$CIDR" || true
+    done
+}
+
+# Tell the newly-started weave about existing weave bridge IPs
+/usr/bin/weaveutil container-addrs weave weave:expose | while read ID IFACE MAC IPS; do
+    reclaim_ips "weave:expose" $IPS
+done
+# Tell weave about existing weave process IPs
+/usr/bin/weaveutil process-addrs weave | while read ID IFACE MAC IPS; do
+    reclaim_ips "_" $IPS
+done
 
 wait $WEAVE_PID

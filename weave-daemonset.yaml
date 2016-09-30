@@ -20,6 +20,7 @@ spec:
           ]
     spec:
       hostNetwork: true
+      hostPID: true
       containers:
         - name: weave
           image: weaveworks/weave-kube:latest
