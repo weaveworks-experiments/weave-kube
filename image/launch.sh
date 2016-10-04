@@ -6,6 +6,14 @@ set -e
 IPALLOC_RANGE=${IPALLOC_RANGE:-10.32.0.0/12}
 HTTP_ADDR=${WEAVE_HTTP_ADDR:-127.0.0.1:6784}
 
+# kube-proxy requires that bridged traffic passes through netfilter
+if [ ! -f /proc/sys/net/bridge/bridge-nf-call-iptables ] ; then
+    echo `/proc/sys/net/bridge/bridge-nf-call-iptables` not found >&2
+    exit 1
+fi
+
+echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
+
 # Create CNI config, if not already there
 if [ ! -f /etc/cni/net.d/10-weave.conf ] ; then
     mkdir -p /etc/cni/net.d
