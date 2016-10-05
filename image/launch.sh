@@ -77,11 +77,27 @@ if [ -z "$IPALLOC_INIT" ]; then
     IPALLOC_INIT="consensus=$(peer_count $KUBE_PEERS)"
 fi
 
+mac_from() {
+    echo "9oBJ0Jmip-$1" | sha256sum | sed 's/\(..\)/\1 /g' | cut -c1-17 | mac_from_hex
+}
+
+# adapted from weave script
+mac_from_hex() {
+    read a b c d e f && printf "%02x:$b:$c:$d:$e:$f" $((0x$a & ~1 | 2))
+}
+
+if [ -n "$WEAVE_PEER_ID" ] ; then
+    NAME_ARG="--name=$(mac_from $WEAVE_PEER_ID)"
+else
+    NAME_ARG="--name=$(cat /sys/class/net/weave/address)"
+fi
+
 /home/weave/weaver --port=6783 $BRIDGE_OPTIONS \
      --http-addr=127.0.0.1:6784 --docker-api='' --no-dns \
      --ipalloc-range=$IPALLOC_RANGE $NICKNAME_ARG \
      --ipalloc-init $IPALLOC_INIT \
-     --name=$(cat /sys/class/net/weave/address) "$@" \
+     "$@" \
+     $NAME_ARG "$@" \
      $KUBE_PEERS &
 WEAVE_PID=$!
 
