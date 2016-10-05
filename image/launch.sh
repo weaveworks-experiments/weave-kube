@@ -89,9 +89,6 @@ while true ; do
     sleep 1
 done
 
-# Expose the weave network so host processes can communicate with pods
-/home/weave/weave --local expose
-
 reclaim_ips() {
     ID=$1
     shift
@@ -108,5 +105,8 @@ done
 /usr/bin/weaveutil process-addrs weave | while read ID IFACE MAC IPS; do
     reclaim_ips "_" $IPS
 done
+
+# Expose the weave network so host processes can communicate with pods
+/home/weave/weave --local expose
 
 wait $WEAVE_PID
