@@ -8,7 +8,7 @@ HTTP_ADDR=${WEAVE_HTTP_ADDR:-127.0.0.1:6784}
 
 # kube-proxy requires that bridged traffic passes through netfilter
 if [ ! -f /proc/sys/net/bridge/bridge-nf-call-iptables ] ; then
-    echo `/proc/sys/net/bridge/bridge-nf-call-iptables` not found >&2
+    echo /proc/sys/net/bridge/bridge-nf-call-iptables not found >&2
     exit 1
 fi
 
