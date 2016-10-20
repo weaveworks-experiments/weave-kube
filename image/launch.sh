@@ -69,13 +69,13 @@ if [ -z "$KUBE_PEERS" ]; then
     fi
 fi
 
-if [ -z "$IPALLOC_INIT" ]; then
-    IPALLOC_INIT="consensus=$(peer_count $KUBE_PEERS)"
-fi
-
 peer_count() {
     echo $#
 }
+
+if [ -z "$IPALLOC_INIT" ]; then
+    IPALLOC_INIT="consensus=$(peer_count $KUBE_PEERS)"
+fi
 
 /home/weave/weaver --port=6783 $BRIDGE_OPTIONS \
      --http-addr=127.0.0.1:6784 --docker-api='' --no-dns \
