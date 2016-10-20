@@ -62,9 +62,15 @@ if [ "$(/home/weave/weave --local bridge-type)" = "bridge" ] ; then
     BRIDGE_OPTIONS="--iface=vethwe-pcap"
 fi
 
-if ! KUBE_PEERS=$(/home/weave/kube-peers) || [ -z "$KUBE_PEERS" ]; then
-    echo Failed to get peers >&2
-    exit 1
+if [ -z "$KUBE_PEERS" ]; then
+    if ! KUBE_PEERS=$(/home/weave/kube-peers) || [ -z "$KUBE_PEERS" ]; then
+        echo Failed to get peers >&2
+        exit 1
+    fi
+fi
+
+if [ -z "$IPALLOC_INIT" ]; then
+    IPALLOC_INIT="consensus=$(peer_count $KUBE_PEERS)"
 fi
 
 peer_count() {
@@ -74,7 +80,7 @@ peer_count() {
 /home/weave/weaver --port=6783 $BRIDGE_OPTIONS \
      --http-addr=127.0.0.1:6784 --docker-api='' --no-dns \
      --ipalloc-range=$IPALLOC_RANGE $NICKNAME_ARG \
-     --ipalloc-init consensus=$(peer_count $KUBE_PEERS) \
+     --ipalloc-init $IPALLOC_INIT \
      --name=$(cat /sys/class/net/weave/address) "$@" \
      $KUBE_PEERS &
 WEAVE_PID=$!
@@ -107,6 +113,6 @@ done
 done
 
 # Expose the weave network so host processes can communicate with pods
-/home/weave/weave --local expose
+/home/weave/weave --local expose $WEAVE_EXPOSE_IP
 
 wait $WEAVE_PID
