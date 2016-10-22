@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	v1core "k8s.io/client-go/1.4/kubernetes/typed/core/v1"
+	"k8s.io/client-go/1.4/kubernetes"
 	"k8s.io/client-go/1.4/pkg/api"
 	"k8s.io/client-go/1.4/rest"
 )
@@ -14,7 +14,7 @@ func getKubePeers() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	c, err := v1core.NewForConfig(config)
+	c, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		return nil, err
 	}
@@ -23,7 +23,7 @@ func getKubePeers() ([]string, error) {
 		// Fallback for cases (e.g. from kube-up.sh) where kube-proxy is not running on master
 		config.Host = "http://localhost:8080"
 		log.Print("error contacting APIServer: ", err, "; trying with fallback: ", config.Host)
-		c, err = v1core.NewForConfig(config)
+		c, err = kubernetes.NewForConfig(config)
 		if err != nil {
 			return nil, err
 		}
