@@ -27,6 +27,11 @@ spec:
           imagePullPolicy: Always
           command:
             - /home/weave/launch.sh
+          env:
+            - name: WEAVE_PEER_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
           livenessProbe:
             initialDelaySeconds: 30
             httpGet:
