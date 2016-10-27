@@ -23,7 +23,7 @@ spec:
       hostPID: true
       containers:
         - name: weave
-          image: weaveworks/weave-kube:latest
+          image: weaveworks/weave-kube:test-66bb65e1d6a327f854651ea4beb56924ebf76150
           imagePullPolicy: Always
           command:
             - /home/weave/launch.sh
@@ -31,7 +31,7 @@ spec:
             - name: WEAVE_PEER_ID
               valueFrom:
                 fieldRef:
-                  fieldPath: metadata.name
+                  fieldPath: metadata.name # should probably use hostname, as Bryan suggested
           livenessProbe:
             initialDelaySeconds: 30
             httpGet:
