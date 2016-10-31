@@ -1,3 +1,8 @@
+> NOTICE: The code for weave-kube has been merged into the [Weave
+> Net](https://github.com/weaveworks/weave) repository; we will be
+> migrating issues and documentation there shortly. Until then, the
+> installation instructions below remain valid.
+
 # weave-kube
 Weave Net integration with Kubernetes for seamless turn-up
 
