@@ -40,7 +40,7 @@ labels.
 The URL https://git.io/weave-kube points to the latest release in this
 repo; if you want to use a different version or to make changes to the
 configuration just clone the repo and use the file
-`weave-daemonset.yaml` directly.
+`k8s-conf/weave-daemonset.yaml` directly.
 
 You can supply additional arguments to the Weave router process by
 adding them to the `command:` array in the yaml file.
