@@ -22,7 +22,7 @@ Kubernetes 1.4
  * Install and run Weave Net as a DaemonSet:
 
 ```
-kubectl create -f https://git.io/weave-kube
+kubectl apply -f https://git.io/weave-kube
 ```
 
 After a few seconds, one Weave Net pod should be running on each node,
